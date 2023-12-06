@@ -103,7 +103,7 @@
 	}
 	void ImageNG::setPixel(int x,int y,int val){
 		if(x<0 || x>dimension.getLargeur() || y<0 || y>dimension.getHauteur()){
-			cout<<"cordonner invalider"<<endl;
+			cout<<"coordonnee invalide"<<endl;
 		}
 		else{
 			if(val<0 || val>255){
@@ -187,7 +187,7 @@
 				return -1.00;
 			}
 			else{
-				return  (max-min)/(max+min);
+				return ((float)(max-min))/(max+min);
 			}
 		}
 
@@ -302,13 +302,13 @@
 	ImageNG ImageNG::operator-(ImageNG& im){
 		int l,h,i,j,val;
 		ImageNG tmp;
-		if(this->getDimension().getLargeur()>im.getDimension().getLargeur()){
+		if(this->getDimension().getLargeur()<im.getDimension().getLargeur()){
 			l=this->getDimension().getLargeur();
 		}
 		else{
 			l=im.getDimension().getLargeur();
 		}
-		if(this->getDimension().getHauteur()>im.getDimension().getHauteur()){
+		if(this->getDimension().getHauteur()<im.getDimension().getHauteur()){
 			h=this->getDimension().getHauteur();
 		}
 		else{
@@ -317,15 +317,7 @@
 		tmp.setDimension(Dimension(l,h));
 		for(i=0;i<l;i++){
 			for(j=0;j<h;j++){
-				if(this->getPixel(i,j)==-1){
-					val=0;
-				}
-				else{
-					val=this->getPixel(i,j);
-				}
-				if(im.getPixel(i,j)!=-1){
-					val=val-im.getPixel(i,j);
-				}
+				val=this->getPixel(i,j)-im.getPixel(i,j);
 				if(val<0){
 					tmp.setPixel(i,j,0);
 				}

@@ -7,7 +7,6 @@
 #include <iostream>
 #include "XYException.h"
 #include "RGBException.h"
-#include "ImageNG.h"
 using namespace std;
 
 class ImageRGB:public Image
@@ -23,10 +22,10 @@ class ImageRGB:public Image
 		~ImageRGB();
 
 		virtual void setDimension(const Dimension& D) override;
-		void setPixel(int x,int y,const Couleur& c) throw(XYException);
+		void setPixel(int x,int y,const Couleur& c) ;
 		void setBackground(const Couleur& c);
 
-		const Couleur& getPixel(int x,int y)const throw(XYException);
+		const Couleur& getPixel(int x,int y)const ;
 
 		virtual void Affiche() const override;
 		void intimatrice();
@@ -36,12 +35,7 @@ class ImageRGB:public Image
 		ImageRGB& operator=(const ImageRGB& img);
 		friend ostream& operator<<(ostream& s,const ImageRGB& img);
 
-		void Save(ofstream & fichier) const override;
-		void Load(ifstream & fichier) override;
-
-		ImageNG getRouge() const;
-		ImageNG getVert() const;
-		ImageNG getBleu() const;
-		void setRGB(const ImageNG &r, const ImageNG &g, const ImageNG& b);
+		void Save(ofstream & fichier) const;
+		void Load(ifstream & fichier);
 };
 #endif

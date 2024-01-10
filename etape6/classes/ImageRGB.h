@@ -22,10 +22,10 @@ class ImageRGB:public Image
 		~ImageRGB();
 
 		virtual void setDimension(const Dimension& D) override;
-		void setPixel(int x,int y,const Couleur& c) throw(XYException);
+		void setPixel(int x,int y,const Couleur& c) ;
 		void setBackground(const Couleur& c);
 
-		const Couleur& getPixel(int x,int y)const throw(XYException);
+		const Couleur& getPixel(int x,int y)const ;
 
 		virtual void Affiche() const override;
 		void intimatrice();

@@ -30,7 +30,6 @@ class PhotoShop
 		static Image* operande2;
 		static Image* resultat;
 		~PhotoShop();
-		Iterateur<Image*> i;
 		void reset();
 		void ajouteImage(Image* pImage);
 		 
@@ -42,6 +41,7 @@ class PhotoShop
 		void supprimeImageParId(int id);
 
 		static PhotoShop& getInstance();
+		ArrayList<Image*>& getImages();
 		int importeImages(string nom);
 		void Save();
 		int Load();

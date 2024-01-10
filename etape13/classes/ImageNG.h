@@ -21,10 +21,10 @@ class ImageNG:public Image
 		~ImageNG();
 
 		virtual void setDimension(const Dimension& D) override;
-		void setPixel(int x,int y,int val) throw(XYException,RGBException);
+		void setPixel(int x,int y,int val) ;
 		void setBackground(int val);
 
-		int getPixel(int x,int y)const throw(XYException,RGBException);
+		int getPixel(int x,int y)const ;
 		int getLuminance()const;
 		int getMinimum()const;
 		int getMaximum()const;
@@ -48,12 +48,12 @@ class ImageNG:public Image
 		ImageNG operator++(int);
 		ImageNG& operator--();
 		ImageNG operator--(int);
-		int operator<(ImageNG& img) throw(XYException);
-		int operator>(ImageNG& img) throw(XYException);
-		int operator==(ImageNG& img) throw(XYException);
+		int operator<(ImageNG& img);
+		int operator>(ImageNG& img);
+		int operator==(ImageNG& img);
 
 		void Save(ofstream & fichier) const override;
-		void Load(ifstream & fichier)override;
+		void Load(ifstream & fichier) override;
 
 };
 

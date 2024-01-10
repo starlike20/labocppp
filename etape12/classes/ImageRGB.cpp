@@ -101,7 +101,7 @@
 	    }
 		dimension = D;
 	}
-	void ImageRGB::setPixel(int x,int y,const Couleur& c) throw(XYException)
+	void ImageRGB::setPixel(int x,int y,const Couleur& c)
 	{
 		if(x<0 || x>dimension.getLargeur()){
 			throw XYException('x',"coordonner de pixel invalide");
@@ -124,7 +124,7 @@
 //---------------------------------
 //------ getter
 //---------------------------------
-	const Couleur& ImageRGB::getPixel(int x,int y)const throw(XYException)
+	const Couleur& ImageRGB::getPixel(int x,int y)const 
 	{
 		if(x<0 || x>=getDimension().getLargeur()){
 			throw XYException('x',"coordonner de pixel invalide");
@@ -188,6 +188,7 @@
 
 	void ImageRGB::Save(ofstream & fichier) const{
 		int i,j;
+		Image::Save(fichier);
 		dimension.Save(fichier);
 		for(i=0;i<getDimension().getLargeur();i++){
 			for(j=0;j<getDimension().getHauteur();j++){
@@ -198,6 +199,7 @@
 	}
 	void ImageRGB::Load(ifstream & fichier){
 		int i,j;
+		Image::Load(fichier);
 		dimension.Load(fichier);
 		for(i=0;i<getDimension().getLargeur();i++){
 			for(j=0;j<getDimension().getHauteur();j++){
@@ -205,6 +207,4 @@
 			}
 		}
 	}
-
-
 	

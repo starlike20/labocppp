@@ -21,7 +21,7 @@ int main(int argc,char* argv[])
     switch(choix)
     {
       case 1 : Essai1(); break;
-      //case 2 : Essai2(); break;
+      case 2 : Essai2(); break;
       default : fini = true ; break;
     }
   }

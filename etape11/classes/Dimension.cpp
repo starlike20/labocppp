@@ -52,7 +52,7 @@ int Dimension::comp(const Dimension& D)const{
 //---------------------------------
 //------ setter
 //---------------------------------
- 	void Dimension::setLargeur(int i) throw(XYException)
+ 	void Dimension::setLargeur(int i) 
  	{
  		if(i<1){
  			throw XYException('x',"la largeur doit etre superieur a zeros");
@@ -62,7 +62,7 @@ int Dimension::comp(const Dimension& D)const{
  		}
  	}
 
-	void Dimension::setHauteur(int i) throw(XYException)
+	void Dimension::setHauteur(int i) 
 	{
 		if(i<1){
  			throw XYException('y',"la hauteur doit etre superieur a zeros");
@@ -94,7 +94,7 @@ ostream& operator<<(ostream& s, const Dimension& d) {
     s << "Largeur: " << d.getLargeur() << " Hauteur: " << d.getHauteur();
     return s;
 }
-istream& operator>>(istream& s, Dimension& d) throw(XYException)
+istream& operator>>(istream& s, Dimension& d) 
 {
     int l, h;
     cout<<"entrez la largeur: ";

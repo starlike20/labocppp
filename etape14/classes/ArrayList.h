@@ -22,16 +22,16 @@ class ArrayList
 	public:
 		friend class Iterateur<T>;
 		ArrayList();
-		ArrayList(ArrayList<T>& A);
+		ArrayList(const ArrayList<T>& A);
 		~ArrayList();
 
 		int getNombreElements()const;
-		T& getElement(int ind)const throw(Exception) ;
+		T getElement(int ind)const;
 
-		virtual bool estVide();
+		bool estVide()const;
 		void Affiche();
 		virtual void insereElement(T const & val);
-		T retireElement(int ind) throw(Exception);
+		T retireElement(int ind);
 		ArrayList<T>& operator=(ArrayList<T>& A);
 
 };

@@ -17,9 +17,9 @@ class Couleur{
 		Couleur(const Couleur& C);
 		~Couleur();
 
-		void setRouge(int r) throw(RGBException);
-		void setVert(int v) throw(RGBException);
-		void setBleu(int b) throw(RGBException);
+		void setRouge(int r) ;
+		void setVert(int v) ;
+		void setBleu(int b) ;
 
 		int getRouge()const;
 		int getVert()const;
@@ -34,7 +34,7 @@ class Couleur{
 	static const Couleur BLEU;
 	static const Couleur BLANC;
 	static const Couleur NOIR;
-
+	
 	void Save(ofstream & fichier) const;
 	void Load(ifstream & fichier);
 };

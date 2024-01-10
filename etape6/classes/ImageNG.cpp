@@ -102,7 +102,7 @@
 	    }
 	    dimension = D;
 	}
-	void ImageNG::setPixel(int x,int y,int val) throw(XYException,RGBException)
+	void ImageNG::setPixel(int x,int y,int val) 
 	{
 		if(x<0 || x>dimension.getLargeur()){
 			throw XYException('x',"coordonnee invalide");
@@ -136,7 +136,7 @@
 //---------------------------------
 		
 
-		int ImageNG::getPixel(int x,int y)const throw(XYException,RGBException)
+		int ImageNG::getPixel(int x,int y)const 
 		{
 			if(x<0 || x>=getDimension().getLargeur()){
 				throw XYException('x',"coordonner de pixel invalide");
@@ -353,7 +353,7 @@
 		(*this)=(*this)-20;
 		return tmp;
 	}
-	int ImageNG::operator<(ImageNG& img)throw(XYException)
+	int ImageNG::operator<(ImageNG& img)
 	{
 		ImageNG tmp;
 		int i=0,j=0,tr=1;
@@ -375,7 +375,7 @@
 		}
 		return tr;
 	}
-	int ImageNG::operator>(ImageNG& img) throw(XYException)
+	int ImageNG::operator>(ImageNG& img) 
 	{
 		ImageNG tmp;
 		int i=0,j=0,tr=1;
@@ -397,7 +397,7 @@
 		}
 		return tr;
 	}
-	int ImageNG::operator==(ImageNG& img) throw(XYException)
+	int ImageNG::operator==(ImageNG& img)
 	{
 		ImageNG tmp;
 		int i=0,j=0,tr=1;

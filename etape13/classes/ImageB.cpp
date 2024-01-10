@@ -1,7 +1,6 @@
 #include "ImageB.h"
 #include "MyQT.h"
 #include <fstream>
-#include <string.h>
 
 Couleur ImageB::couleurTrue=Couleur::VERT;
 Couleur ImageB::couleurFalse=Couleur::ROUGE;
@@ -99,7 +98,7 @@ Couleur ImageB::couleurFalse=Couleur::ROUGE;
 	    }
 		dimension = D;
 	}
-	void ImageB::setPixel(int x,int y,bool b) throw(XYException)
+	void ImageB::setPixel(int x,int y,bool b)
 	{
 		if(x<0 || x>dimension.getLargeur()){
 			throw XYException('x',"coordonner de pixel invalide");
@@ -122,7 +121,7 @@ Couleur ImageB::couleurFalse=Couleur::ROUGE;
 //---------------------------------
 //------ getter
 //---------------------------------
-	bool ImageB::getPixel(int x,int y)const throw(XYException)
+	bool ImageB::getPixel(int x,int y)const
 	{
 		if(x<0 || x>=getDimension().getLargeur()){
 				throw XYException('x',"coordonner de pixel invalide");
@@ -181,7 +180,6 @@ Couleur ImageB::couleurFalse=Couleur::ROUGE;
 		s<<img.getId()<<"/"<<img.getNom()<<"/"<<img.getDimension().getLargeur()<<"/"<<img.getDimension().getHauteur()<<endl;
 		return s;	
 	}
-	
 	void ImageB::Save(ofstream & fichier) const{
 		int i,j;
 		Image::Save(fichier);

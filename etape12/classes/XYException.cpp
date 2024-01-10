@@ -10,7 +10,7 @@
 		#endif
 		setcor('x');
 	}
-	XYException::XYException(const char a,const char*n):Exception(n){
+	XYException::XYException(char a,const char*n):Exception(n){
 		#ifdef DEBUG
 			cout <<">> XYException:constructeur par totale<<"<<endl;
 		#endif

@@ -22,6 +22,7 @@ class PhotoShop
 	 	static PhotoShop instance;
 
 	 	PhotoShop();
+	 	PhotoShop(PhotoShop&);
 	 	PhotoShop& operator=(const PhotoShop& img);
 	public:
 		~PhotoShop();

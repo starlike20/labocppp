@@ -11,7 +11,7 @@ class XYException:public Exception
 		char cor;
 	public:
 		XYException();
-		XYException(const char a,const char*n);
+		XYException(char a,const char*n);
 		XYException(const XYException& E);
 		~XYException();
 

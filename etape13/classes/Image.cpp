@@ -76,7 +76,6 @@
 		void Image::Save(ofstream & fichier) const{
 			int n;
 			n=strlen(nom);
-			cout<<"save"<<n<<endl;
 			fichier.write((char *)&id,sizeof(int));
 			fichier.write((char *)&n,sizeof(int));
 			fichier.write((char *)nom,n*sizeof(char));
@@ -91,5 +90,4 @@
 			fichier.read((char *)nn,n*sizeof(char));
 			nn[n]='\0';
 			setNom(nn);
-			cout<<getNom()<<nn<<endl;
 		}

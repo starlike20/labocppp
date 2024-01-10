@@ -1,5 +1,5 @@
 #include "ArrayList.h"
-#include "Image.h"	
+#include "Image.h"		
 //---------------------------------
 //------ constructeur
 //---------------------------------
@@ -12,7 +12,7 @@
 	}
 
 	template<class T> 
-	ArrayList<T>::ArrayList(ArrayList<T>& A){
+	ArrayList<T>::ArrayList(const ArrayList<T>& A){
 		int c,i=0;
 		#ifdef DEBUG
 			cout <<">> ArrayList:constructeur de copie<<"<< endl;
@@ -49,11 +49,12 @@
 		while(t!=NULL){
 			a++;
 			t=t->suivant;
+			//cout<<a<<endl;
 		}
 		return a;
 	}
 	template<class T> 
-	T& ArrayList<T>::getElement(int ind)const throw(Exception)
+	T ArrayList<T>::getElement(int ind) const
 	{
 		int c,i=0;
 		c=getNombreElements();
@@ -72,7 +73,7 @@
 	}
 
 	template<class T> 
-	bool ArrayList<T>::estVide(){
+	bool ArrayList<T>::estVide()const{
 		if(tete==NULL){
 			return 1;
 		}
@@ -105,8 +106,9 @@
 	    }
 	}
 	template<class T> 
-	T ArrayList<T>::retireElement(int ind) throw(Exception)
+	T ArrayList<T>::retireElement(int ind) 
 	{
+		T valeurRetiree;
 	    cellule<T> *t = tete;
 	    cellule<T> *p = nullptr;
 	    int c=getNombreElements();
@@ -125,14 +127,14 @@
 		        } else {
 		            p->suivant = t->suivant;
 		        }
-		        T valeurRetiree = t->valeur;
+		        valeurRetiree = t->valeur;
 		        delete t;
-		        return valeurRetiree;
 		    }
 		}
 		else{
 			throw Exception("indice incorrecte");
 		}
+		return valeurRetiree;
 	}
 	template<class T> 
 	ArrayList<T>& ArrayList<T>::operator=(ArrayList<T>& A){
@@ -142,10 +144,11 @@
 		while(i<c){
 			t=tete;
 			tete=tete->suivant;
-			delete[] t;
+			delete t;
 			i++;
 		}
 		i=0;
+		tete=NULL;
 		c=A.getNombreElements();
 		while(i<c){
 			insereElement(A.getElement(i));

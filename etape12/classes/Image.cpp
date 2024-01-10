@@ -82,9 +82,12 @@
 		}
 		void Image::Load(ifstream & fichier){
 			int n;
-			delete nom;
+			char*nn;
 			fichier.read((char *)&id,sizeof(int));
 			fichier.read((char *)&n,sizeof(int));
-			nom=new char[n+1];
-			fichier.read((char *)nom,n*sizeof(char));
+			cout<<"load"<<n<<endl;
+			nn=new char[n];
+			fichier.read((char *)nn,n*sizeof(char));
+			nn[n]='\0';
+			setNom(nn);
 		}

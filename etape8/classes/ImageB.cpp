@@ -98,7 +98,7 @@ Couleur ImageB::couleurFalse=Couleur::ROUGE;
 	    }
 		dimension = D;
 	}
-	void ImageB::setPixel(int x,int y,bool b) throw(XYException)
+	void ImageB::setPixel(int x,int y,bool b)
 	{
 		if(x<0 || x>dimension.getLargeur()){
 			throw XYException('x',"coordonner de pixel invalide");
@@ -121,7 +121,7 @@ Couleur ImageB::couleurFalse=Couleur::ROUGE;
 //---------------------------------
 //------ getter
 //---------------------------------
-	bool ImageB::getPixel(int x,int y)const throw(XYException)
+	bool ImageB::getPixel(int x,int y)const
 	{
 		if(x<0 || x>=getDimension().getLargeur()){
 				throw XYException('x',"coordonner de pixel invalide");
@@ -182,6 +182,7 @@ Couleur ImageB::couleurFalse=Couleur::ROUGE;
 	}
 	void ImageB::Save(ofstream & fichier) const{
 		int i,j;
+		Image::Save(fichier);
 		dimension.Save(fichier);
 		for(i=0;i<getDimension().getLargeur();i++){
 			for(j=0;j<getDimension().getHauteur();j++){
@@ -191,6 +192,7 @@ Couleur ImageB::couleurFalse=Couleur::ROUGE;
 	}
 	void ImageB::Load(ifstream & fichier){
 		int i,j;
+		Image::Load(fichier);
 		dimension.Load(fichier);
 		for(i=0;i<getDimension().getLargeur();i++){
 			for(j=0;j<getDimension().getHauteur();j++){

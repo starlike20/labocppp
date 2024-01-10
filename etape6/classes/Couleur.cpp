@@ -46,7 +46,7 @@
 //---------------------------------
 //------ setter
 //---------------------------------
-	void Couleur::setRouge(int r) throw(RGBException)
+	void Couleur::setRouge(int r) 
 	{
 		if(r<0 || r>255){
 			throw RGBException(r,"Composant rouge invalide");
@@ -55,7 +55,7 @@
 			rouge=r;
 		}
 	}
-	void Couleur::setVert(int v) throw(RGBException)
+	void Couleur::setVert(int v) 
 	{
 		if(v<0 || v>255){
 			throw(RGBException(v,"Composant vert invalide"));
@@ -64,7 +64,7 @@
 			vert=v;
 		}
 	}
-	void Couleur::setBleu(int b) throw(RGBException)
+	void Couleur::setBleu(int b) 
 	{
 		if(b<0 || b>255){
 			throw(RGBException(b,"Composant blue invalide"));

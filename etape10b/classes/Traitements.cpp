@@ -107,7 +107,7 @@ ImageNG Traitements::Erosion(const ImageNG& imageIn, int taille) {
 		for(i=0;i<imageIn.getDimension().getLargeur();i++){
 			for(j=0;j<imageIn.getDimension().getHauteur();j++){
 				SortedArrayList<int> liste;
-				m=0;
+				m=255;
 				debutl=i-n;
 				debutcol=j-n;
 				for(x=debutl;(x-debutl)<taille ;x++){

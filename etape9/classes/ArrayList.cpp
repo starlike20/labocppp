@@ -52,7 +52,7 @@
 		return a;
 	}
 	template<class T> 
-	T& ArrayList<T>::getElement(int ind) throw(Exception)
+	T& ArrayList<T>::getElement(int ind) 
 	{
 		int c,i=0;
 		c=getNombreElements();
@@ -104,8 +104,9 @@
 	    }
 	}
 	template<class T> 
-	T ArrayList<T>::retireElement(int ind) throw(Exception)
+	T ArrayList<T>::retireElement(int ind) 
 	{
+		T valeurRetiree;
 	    cellule<T> *t = tete;
 	    cellule<T> *p = nullptr;
 	    int c=getNombreElements();
@@ -124,14 +125,14 @@
 		        } else {
 		            p->suivant = t->suivant;
 		        }
-		        T valeurRetiree = t->valeur;
+		        valeurRetiree = t->valeur;
 		        delete t;
-		        return valeurRetiree;
 		    }
 		}
 		else{
 			throw Exception("indice incorrecte");
 		}
+		return valeurRetiree;
 	}
 	template<class T> 
 	ArrayList<T>& ArrayList<T>::operator=(ArrayList<T>& A){

@@ -429,34 +429,7 @@ void MainWindowPhotoShop::on_actionCharger_ImageNB_triggered()
       img=new ImageNG(1,mn);
       img->importFromFile(mn);
       PhotoShop::getInstance().ajouteImage(img);
-      videTableImages();
-      PhotoShop::getInstance().i.reset();
-      Image*im;
-      ImageB* pB;
-      ImageNG* pNG;
-      ImageRGB* pRGB;
-      while(!PhotoShop::getInstance().i.end()){
-        im=PhotoShop::getInstance().i;
-        pB = dynamic_cast<ImageB*>(im);
-        if (pB != NULL)
-        {
-          type="B";
-        }
-        pNG = dynamic_cast<ImageNG*>(im);
-        if (pNG != NULL) 
-        {
-          type="NG";
-        }
-        pRGB = dynamic_cast<ImageRGB*>(im);
-        if (pRGB != NULL) 
-        {
-          type="RGB";
-        }
-        m=im->getNom();
-        dimension=to_string(im->getDimension().getLargeur())+"X"+to_string(im->getDimension().getHauteur());
-        ajouteTupleTableImages(im->getId(),type,dimension,m);
-        PhotoShop::getInstance().i++;
-      }
+      affichetable();
     }
 
   }
@@ -498,34 +471,7 @@ void MainWindowPhotoShop::on_actionCharger_ImageRGB_triggered()
       img=new ImageRGB(1,mn);
       img->importFromFile(mn);
       PhotoShop::getInstance().ajouteImage(img);
-      videTableImages();
-      PhotoShop::getInstance().i.reset();
-      Image*im;
-      ImageB* pB;
-      ImageNG* pNG;
-      ImageRGB* pRGB;
-      while(!PhotoShop::getInstance().i.end()){
-        im=PhotoShop::getInstance().i;
-        pB = dynamic_cast<ImageB*>(im);
-        if (pB != NULL)
-        {
-          type="B";
-        }
-        pNG = dynamic_cast<ImageNG*>(im);
-        if (pNG != NULL) 
-        {
-          type="NG";
-        }
-        pRGB = dynamic_cast<ImageRGB*>(im);
-        if (pRGB != NULL) 
-        {
-          type="RGB";
-        }
-        m=im->getNom();
-        dimension=to_string(im->getDimension().getLargeur())+"X"+to_string(im->getDimension().getHauteur());
-        ajouteTupleTableImages(im->getId(),type,dimension,m);
-        PhotoShop::getInstance().i++;
-      }
+      affichetable();
     }
 
   }
@@ -736,34 +682,7 @@ void MainWindowPhotoShop::on_actionImage_selectionn_e_triggered()
   n=getIndiceImageSelectionnee();
   if(PhotoShop::getInstance().getImageParIndice(n)!=NULL){
     PhotoShop::getInstance().supprimeImageParIndice(n);
-    videTableImages();
-    PhotoShop::getInstance().i.reset();
-    Image*im;
-    ImageB* pB;
-    ImageNG* pNG;
-    ImageRGB* pRGB;
-    while(!PhotoShop::getInstance().i.end()){
-      im=PhotoShop::getInstance().i;
-      pB = dynamic_cast<ImageB*>(im);
-      if (pB != NULL)
-      {
-        type="B";
-      }
-      pNG = dynamic_cast<ImageNG*>(im);
-      if (pNG != NULL) 
-      {
-        type="NG";
-      }
-      pRGB = dynamic_cast<ImageRGB*>(im);
-      if (pRGB != NULL) 
-      {
-        type="RGB";
-      }
-      m=im->getNom();
-      dimension=to_string(im->getDimension().getLargeur())+"X"+to_string(im->getDimension().getHauteur());
-      ajouteTupleTableImages(im->getId(),type,dimension,m);
-      PhotoShop::getInstance().i++;
-    }
+   affichetable();
   }
   else{
     dialogueErreur("suppression","l'id n'existe pas");
@@ -780,34 +699,7 @@ void MainWindowPhotoShop::on_actionImage_par_id_triggered()
   n=dialogueDemandeInt("suppression","entrez l'indice de l'element a supprimer");
   if(PhotoShop::getInstance().getImageParId(n)!=NULL){
     PhotoShop::getInstance().supprimeImageParId(n);
-    videTableImages();
-    PhotoShop::getInstance().i.reset();
-    Image*im;
-    ImageB* pB;
-    ImageNG* pNG;
-    ImageRGB* pRGB;
-    while(!PhotoShop::getInstance().i.end()){
-      im=PhotoShop::getInstance().i;
-      pB = dynamic_cast<ImageB*>(im);
-      if (pB != NULL)
-      {
-        type="B";
-      }
-      pNG = dynamic_cast<ImageNG*>(im);
-      if (pNG != NULL) 
-      {
-        type="NG";
-      }
-      pRGB = dynamic_cast<ImageRGB*>(im);
-      if (pRGB != NULL) 
-      {
-        type="RGB";
-      }
-      m=im->getNom();
-      dimension=to_string(im->getDimension().getLargeur())+"X"+to_string(im->getDimension().getHauteur());
-      ajouteTupleTableImages(im->getId(),type,dimension,m);
-      PhotoShop::getInstance().i++;
-    }
+    affichetable();
   }
   else{
     dialogueErreur("suppression","l'id n'existe pas");
@@ -894,6 +786,7 @@ void MainWindowPhotoShop::on_pushButtonModifierNom_clicked()
   if(n!=-1){
     strcpy(mn,nom.c_str());
     PhotoShop::getInstance().getImageParIndice(n)->setNom(mn);
+    affichetable();
   }
   else{
     dialogueErreur("erreur modification","aucune image selectionner");
@@ -904,30 +797,7 @@ void MainWindowPhotoShop::on_pushButtonModifierNom_clicked()
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void MainWindowPhotoShop::on_pushButtonOperande1_clicked()
 {
-    // Etape 12 (TO DO)
-  int n;
-  n=getIndiceImageSelectionnee();
-  if(n!=-1){
-    Image*i=PhotoShop::getInstance().getImageParIndice(n);
-    ImageB* pB = dynamic_cast<ImageB*>(i);
-    if (pB != NULL)
-    {
-      setImageB("operande1",pB);
-      PhotoShop::operande1=pB;
-    }
-    ImageNG* pN = dynamic_cast<ImageNG*>(i);
-    if (pN != NULL)
-    {
-      setImageNG("operande1",pN);
-      PhotoShop::operande1=pN;
-    }
-    ImageRGB* pR = dynamic_cast<ImageRGB*>(i);
-    if (pR != NULL)
-    {
-      setImageRGB("operande1",pR);
-      PhotoShop::operande1=pR;
-    }
-  }
+  // Etape 12 (TO DO)
 
 }
 
@@ -971,4 +841,35 @@ void MainWindowPhotoShop::on_pushButtonTraitement_clicked()
 {
     // Etape 12 (TO DO)
 
+}
+void MainWindowPhotoShop::affichetable(){
+  string type,dimension,m;
+  videTableImages();
+  Iterateur<Image*> i(PhotoShop::getInstance().getImages());
+  Image*im;
+  ImageB* pB;
+  ImageNG* pNG;
+  ImageRGB* pRGB;
+  while(!i.end()){
+    im=i;
+    pB = dynamic_cast<ImageB*>(im);
+    if (pB != NULL)
+    {
+      type="B";
+    }
+    pNG = dynamic_cast<ImageNG*>(im);
+    if (pNG != NULL) 
+    {
+      type="NG";
+    }
+    pRGB = dynamic_cast<ImageRGB*>(im);
+    if (pRGB != NULL) 
+    {
+      type="RGB";
+    }
+    m=im->getNom();
+    dimension=to_string(im->getDimension().getLargeur())+"X"+to_string(im->getDimension().getHauteur());
+    ajouteTupleTableImages(im->getId(),type,dimension,m);
+    i++;
+  }
 }

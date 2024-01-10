@@ -17,7 +17,6 @@
 		#ifdef DEBUG
 			cout <<">> Exception:constructeur totale<<"<< endl;
 		#endif
-			cout<<n<<endl;
 		texte=NULL;
 		settexte(n);
 	}

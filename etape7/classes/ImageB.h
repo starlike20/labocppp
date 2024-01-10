@@ -21,10 +21,10 @@ class ImageB:public Image
 		~ImageB();
 
 		virtual void setDimension(const Dimension& D) override;
-		void setPixel(int x,int y,bool b) throw(XYException);
+		void setPixel(int x,int y,bool b);
 		void setBackground(bool b);
 
-		bool getPixel(int x,int y)const throw(XYException);
+		bool getPixel(int x,int y)const;
 
 		virtual void Affiche() const override;
 		void intimatrice();

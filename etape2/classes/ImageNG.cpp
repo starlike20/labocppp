@@ -80,7 +80,7 @@
 		{
 			return nom;
 		}
-		Dimension ImageNG::getDimension() const
+		const Dimension& ImageNG::getDimension() const
 		{
 			return dimension;
 		}

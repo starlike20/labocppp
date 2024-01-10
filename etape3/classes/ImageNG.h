@@ -30,7 +30,7 @@ class ImageNG
 
 		int getId()const;
 		const char * getNom() const;
-		Dimension getDimension()const;
+		const Dimension& getDimension()const;
 		int getPixel(int x,int y)const;
 
 

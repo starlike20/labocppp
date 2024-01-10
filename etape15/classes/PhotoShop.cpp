@@ -6,7 +6,7 @@ int PhotoShop::numCourant = 0;
 Image* PhotoShop::operande1=NULL;
 Image* PhotoShop::operande2=NULL;
 Image* PhotoShop::resultat=NULL;
-PhotoShop::PhotoShop():i(images){
+PhotoShop::PhotoShop(){
 	#ifdef DEBUG
 		cout <<">> PhotoShop:constructeur par defaut<<"<< endl;
 		numCourant=1;
@@ -29,7 +29,7 @@ void PhotoShop::reset(){
 	numCourant=1;
 }
 void PhotoShop::ajouteImage(Image* pImage){
-	Image*p;
+	/*Image*p;
     ImageB* pB = dynamic_cast<ImageB*>(pImage);
     if (pB != NULL)
     {
@@ -45,40 +45,43 @@ void PhotoShop::ajouteImage(Image* pImage){
     {
       p =new ImageRGB(*pRGB);
     }
-    cout << endl;
-	p->setId(numCourant);
+    cout << endl;*/
+	pImage->setId(numCourant);
 	numCourant++;
-	images.insereElement(p);
+	images.insereElement(pImage);
 }
 void PhotoShop::afficheImages() const{
-	int i;
-	for(i=0;i<images.getNombreElements();i++){
-		images.getElement(i)->Affiche();
+	ArrayList<Image*> m(images);
+	Iterateur<Image*> i(m);
+	while(!i.end()){
+		(&i)->Affiche();
+		//images.getElement(i)->Dessine();
 		cout<<endl;
+		i++;
 	}
 }
 void PhotoShop::dessineImages() const{
-	int i;
-	for(i=0;i<images.getNombreElements();i++){
-		images.getElement(i)->Dessine();
+	ArrayList<Image*> m(images);
+	Iterateur<Image*> i(m);
+	while(!i.end()){
+		(&i)->Dessine();
+		//images.getElement(i)->Dessine();
 		cout<<endl;
+		i++;
 	}
 }
 Image* PhotoShop::getImageParIndice(int indice){
-	if(indice<images.getNombreElements()){
-		return images.getElement(indice);
-	}
-	return NULL;
+	return images.getElement(indice);
 }
 Image* PhotoShop::getImageParId(int id)
 {
 	int i;
 	for(i=0;i<images.getNombreElements();i++){
 		if(id==images.getElement(i)->getId()){
-			return images.getElement(i);
+			return  images.getElement(i);
 		}
 	}
-	cout<<"l'id n'existe pas"<<endl;
+	cout<<"l'indice n'existe pas"<<endl;
 	return NULL;
 }
 void PhotoShop::supprimeImageParIndice(int ind){
@@ -88,16 +91,25 @@ void PhotoShop::supprimeImageParIndice(int ind){
 
 }
 void PhotoShop::supprimeImageParId(int id){
-	int i;
-	for(i=0;i<images.getNombreElements();i++){
-		if(id==images.getElement(i)->getId()){
-			supprimeImageParIndice(i);
+	int j=0;
+	ArrayList<Image*> m(images);
+	Iterateur<Image*> i(m);
+	while(!i.end()){
+		if(id==(&i)->getId()){
+			supprimeImageParIndice(j);
 		}
+		j++;
+		i++;
 	}
+	
 }
 /**********************les instance**********************/
 PhotoShop& PhotoShop::getInstance(){
 	return PhotoShop::instance;
+}
+
+ArrayList<Image*>& PhotoShop::getImages(){
+	return images;
 }
 PhotoShop PhotoShop::instance;
 
@@ -180,15 +192,15 @@ void PhotoShop::Save(){
 	ImageB* pB;
 	ImageNG* pN;
 	ImageRGB* pR;
+	ofstream fichier("sauvegarde.dat", ios::out | ios::trunc);
 	if(getImageParIndice(0)!=NULL){
-		ofstream fichier("sauvegarde.dat", ios::out | ios::trunc);
 		if(fichier){
 			fichier.write((char *)&numCourant,sizeof(int));
 			ImageB::couleurTrue.Save(fichier);
 			ImageB::couleurFalse.Save(fichier);
 			n=images.getNombreElements();
 			fichier.write((char *)&n,sizeof(int));
-			i.reset();
+			Iterateur<Image*> i(images);
 			while(!i.end()){
 				p=i;
 				pB = dynamic_cast<ImageB*>(p);
@@ -214,10 +226,10 @@ void PhotoShop::Save(){
 		    }
 		    cout<<n<<endl;
 		    i++;
-			}
-			fichier.close(); 
+			} 
 		}
 	}
+	fichier.close();
 
 }
 int PhotoShop::Load(){
@@ -226,9 +238,15 @@ int PhotoShop::Load(){
 	ImageB* pB;
 	ImageNG* pN;
 	ImageRGB* pR;
-	ifstream fichier("sauvegarde.dat");
+	ifstream fichier("sauvegarde.dat",ios::binary);
 	if(fichier){
 		fichier.read((char *)&numCourant,sizeof(int));
+		if (fichier.eof()) {
+      fichier.close();
+      return 0;
+    }
+    //cout<<"jourssss"<<endl;
+		//fichier.read((char *)&numCourant,sizeof(int));
 		ImageB::couleurTrue.Load(fichier);
 		ImageB::couleurFalse.Load(fichier);
 		fichier.read((char *)&n,sizeof(int));
@@ -239,18 +257,18 @@ int PhotoShop::Load(){
 			if(j==1){
 				pN=new ImageNG();
 				pN->Load(fichier);
-				ajouteImage(pN);
+				images.insereElement(pN);
 			}
 			else{
 				if(j==2){
 					pR=new ImageRGB();
 					pR->Load(fichier);
-					ajouteImage(pR);
+					images.insereElement(pR);
 				}
 				else{
 					pB=new ImageB();
 					pB->Load(fichier);
-					ajouteImage(pB);
+					images.insereElement(pB);
 				}
 			}
 		}

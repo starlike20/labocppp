@@ -1,6 +1,6 @@
 .SILENT:
 
-COMP=g++ #-D DEBUG -Wall
+COMP=g++ -g -D DEBUG -Wall
 CLASSES=classes/
 
 Test10a: Test10a.cpp objets/PhotoShop.o objets/Traitements.o objets/ArrayList.o objets/Iterateur.o objets/Exception.o objets/XYException.o objets/RGBException.o objets/Image.o objets/ImageRGB.o objets/ImageNG.o objets/ImageB.o objets/Dimension.o objets/MyQT.o objets/Couleur.o objets/SortedArrayList.o

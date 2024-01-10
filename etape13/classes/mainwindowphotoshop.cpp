@@ -22,7 +22,6 @@
 
 MainWindowPhotoShop::MainWindowPhotoShop(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWindowPhotoShop)
 {
-    int n;
     ui->setupUi(this);
     setTitre("Mini-PhotoShop  en C++");
 
@@ -74,10 +73,6 @@ MainWindowPhotoShop::MainWindowPhotoShop(QWidget *parent) : QMainWindow(parent),
 
     // Etape 14 (TO DO)
     // Restauration bibliothèque via fichier de sauvegarde
-    n=PhotoShop::getInstance().Load();
-    if(n>0){
-      affichetable();
-    }
 
     // TESTS DEMOS A SUPPRIMER
     /*ajouteTupleTableImages(3,"NG","256x256","lena.bmp");
@@ -389,8 +384,7 @@ void MainWindowPhotoShop::closeEvent(QCloseEvent *event)
 {
   if (event == NULL) {} // pour éviter le warning à la compilation
   // Etape 14 (TO DO)
-  PhotoShop::getInstance().Save();
-  on_actionReset_triggered();
+
   QApplication::exit();
 }
 
@@ -400,8 +394,7 @@ void MainWindowPhotoShop::closeEvent(QCloseEvent *event)
 void MainWindowPhotoShop::on_actionQuitter_triggered()
 {
   // Etape 14 (TO DO)
-  PhotoShop::getInstance().Save();
-  on_actionReset_triggered();
+
   QApplication::exit();
 }
 
@@ -687,44 +680,12 @@ void MainWindowPhotoShop::on_actionImage_selectionn_e_triggered()
   int n;
   string m,type,dimension;
   n=getIndiceImageSelectionnee();
-  if(n!=-1){
-    if(PhotoShop::getInstance().getImageParIndice(n)!=NULL){
-      PhotoShop::getInstance().supprimeImageParIndice(n);
-      videTableImages();
-      PhotoShop::getInstance().i.reset();
-      Image*im;
-      ImageB* pB;
-      ImageNG* pNG;
-      ImageRGB* pRGB;
-      while(!PhotoShop::getInstance().i.end()){
-        im=PhotoShop::getInstance().i;
-        pB = dynamic_cast<ImageB*>(im);
-        if (pB != NULL)
-        {
-          type="B";
-        }
-        pNG = dynamic_cast<ImageNG*>(im);
-        if (pNG != NULL) 
-        {
-          type="NG";
-        }
-        pRGB = dynamic_cast<ImageRGB*>(im);
-        if (pRGB != NULL) 
-        {
-          type="RGB";
-        }
-        m=im->getNom();
-        dimension=to_string(im->getDimension().getLargeur())+"X"+to_string(im->getDimension().getHauteur());
-        ajouteTupleTableImages(im->getId(),type,dimension,m);
-        PhotoShop::getInstance().i++;
-      }
-    }
-    else{
-      dialogueErreur("suppression","l'id n'existe pas");
-    }
+  if(PhotoShop::getInstance().getImageParIndice(n)!=NULL){
+    PhotoShop::getInstance().supprimeImageParIndice(n);
+    affichetable();
   }
   else{
-    dialogueErreur("erreur","aucun element selectionner");
+    dialogueErreur("suppression","l'id n'existe pas");
   }
 
 }
@@ -738,34 +699,7 @@ void MainWindowPhotoShop::on_actionImage_par_id_triggered()
   n=dialogueDemandeInt("suppression","entrez l'indice de l'element a supprimer");
   if(PhotoShop::getInstance().getImageParId(n)!=NULL){
     PhotoShop::getInstance().supprimeImageParId(n);
-    videTableImages();
-    PhotoShop::getInstance().i.reset();
-    Image*im;
-    ImageB* pB;
-    ImageNG* pNG;
-    ImageRGB* pRGB;
-    while(!PhotoShop::getInstance().i.end()){
-      im=PhotoShop::getInstance().i;
-      pB = dynamic_cast<ImageB*>(im);
-      if (pB != NULL)
-      {
-        type="B";
-      }
-      pNG = dynamic_cast<ImageNG*>(im);
-      if (pNG != NULL) 
-      {
-        type="NG";
-      }
-      pRGB = dynamic_cast<ImageRGB*>(im);
-      if (pRGB != NULL) 
-      {
-        type="RGB";
-      }
-      m=im->getNom();
-      dimension=to_string(im->getDimension().getLargeur())+"X"+to_string(im->getDimension().getHauteur());
-      ajouteTupleTableImages(im->getId(),type,dimension,m);
-      PhotoShop::getInstance().i++;
-    }
+    affichetable();
   }
   else{
     dialogueErreur("suppression","l'id n'existe pas");
@@ -813,24 +747,6 @@ void MainWindowPhotoShop::on_actionImporterCSV_triggered()
 void MainWindowPhotoShop::on_actionReset_triggered()
 {
   // Etape 14 (TO DO)
-  Image*p;
-  if(PhotoShop::getInstance().getImageParIndice(0)!=NULL){
-    PhotoShop::getInstance().reset();
-    videTableImages();
-    setImageNG("selection");
-    setImageNG("operande1");
-    setImageNG("operande2");
-    setImageNG("resultat");
-    PhotoShop::operande1=NULL;
-    PhotoShop::operande2=NULL;
-    if (PhotoShop::resultat!=NULL)
-    {
-      delete PhotoShop::resultat;
-    }
-    setNomImage(" ");
-    ImageB::couleurTrue=Couleur::BLANC;
-    ImageB::couleurFalse=Couleur::NOIR;
-  }
 
 }
 
@@ -844,34 +760,30 @@ void MainWindowPhotoShop::on_tableWidgetImages_itemSelectionChanged()
   int n;
   Image*i;
   n=getIndiceImageSelectionnee();
-  if(n!=-1){
-    if(PhotoShop::getInstance().getImageParIndice(n)!=NULL){
-      i=PhotoShop::getInstance().getImageParIndice(n);
-      nom=i->getNom();
-      setNomImage(nom);
-      ImageB* pB = dynamic_cast<ImageB*>(i);
-      if (pB != NULL)
-      {
-        setImageB("selection",pB);
-        setParametresImageNG(-1,-1,-1,0.0);
-      }
-      ImageNG* pN = dynamic_cast<ImageNG*>(i);
-      if (pN != NULL)
-      {
-        setImageNG("selection",pN);
-        setParametresImageNG(pN->getMaximum(),pN->getMinimum(),pN->getLuminance(),pN->getContraste());
-      }
-      ImageRGB* pR = dynamic_cast<ImageRGB*>(i);
-      if (pR != NULL)
-      {
-        setImageRGB("selection",pR);
-        setParametresImageNG(-1,-1,-1,0.0);
-      }
-    } 
-  } 
-  else{
-    setParametresImageNG(-1,-1,-1,0.0);
-  }
+  if(PhotoShop::getInstance().getImageParIndice(n)!=NULL){
+    i=PhotoShop::getInstance().getImageParIndice(n);
+    nom=i->getNom();
+    setNomImage(nom);
+    ImageB* pB = dynamic_cast<ImageB*>(i);
+    if (pB != NULL)
+    {
+      setImageB("selection",pB);
+      setParametresImageNG(-1,-1,-1,0.0);
+    }
+    ImageNG* pN = dynamic_cast<ImageNG*>(i);
+    if (pN != NULL)
+    {
+      setImageNG("selection",pN);
+      setParametresImageNG(pN->getMaximum(),pN->getMinimum(),pN->getLuminance(),pN->getContraste());
+    }
+    ImageRGB* pR = dynamic_cast<ImageRGB*>(i);
+    if (pR != NULL)
+    {
+      setImageRGB("selection",pR);
+      setParametresImageNG(-1,-1,-1,0.0);
+    }
+
+  }  
 
 }
 
@@ -1000,7 +912,7 @@ void MainWindowPhotoShop::on_pushButtonSupprimerOperande2_clicked()
     // Etape 12 (TO DO)
   if(PhotoShop::operande2!= NULL)
   {
-    Image*i=PhotoShop::getInstance().getImageParId(PhotoShop::operande1->getId());
+    Image*i=PhotoShop::getInstance().getImageParId(PhotoShop::operande2->getId());
     ImageB* pB = dynamic_cast<ImageB*>(i);
     if (pB != NULL)
     {
@@ -1052,181 +964,12 @@ void MainWindowPhotoShop::on_pushButtonSupprimerResultat_clicked()
 void MainWindowPhotoShop::on_pushButtonTraitement_clicked()
 {
     // Etape 12 (TO DO)
-  string n;
-  int m;
-  n=getTraitementSelectionne();
-  delete PhotoShop::resultat;
-  PhotoShop::resultat=NULL;
-  setImageNG("resultat",NULL);
-  setResultatBoolean(1);
-
-  ImageRGB* pR1 = dynamic_cast<ImageRGB*>(PhotoShop::operande1);
-  ImageRGB* pR2 = dynamic_cast<ImageRGB*>(PhotoShop::operande2);
-  ImageRGB*pR;
-  if(pR1!=NULL){
-    pR=pR1;
-  }
-  else{
-    pR=pR2;
-  }
-  if (pR != NULL){
-    if(n=="Eclaircir (+ val)"){
-      m=dialogueDemandeInt("Eclaircir","entrez un nombre positif");
-      if(m>0){
-        ImageRGB *resultat=new ImageRGB();
-        ImageNG r,v,b;
-        r=pR->getRouge()+m;
-        v=pR->getVert()+m;
-        b=pR->getBleu()+m;
-        resultat->setRGB(r,v,b);
-        PhotoShop::resultat=resultat;
-        setImageRGB("resultat",resultat);
-        setResultatBoolean(-1);
-      }
-      else{
-        dialogueErreur("erreur de valeur","entrez un entier positif");
-      }
-    }
-          if(n=="Eclaircir (++)"){
-            ImageRGB *resultat=new ImageRGB();
-            ImageNG r,v,b;
-            r=pR->getRouge()++;
-            v=pR->getVert()++;
-            b=pR->getBleu()++;
-            resultat->setRGB(r,v,b);
-            PhotoShop::resultat=resultat;
-            setImageRGB("resultat",resultat);
-            setResultatBoolean(-1);
-          }
-          if(n=="Assombrir (- val)"){
-            m=dialogueDemandeInt("Eclaircir","entrez un nombre positif");
-            if(m>0){
-              ImageRGB *resultat=new ImageRGB();
-              ImageNG r,v,b;
-              r=pR->getRouge()-m;
-              v=pR->getVert()-m;
-              b=pR->getBleu()-m;
-              resultat->setRGB(r,v,b);
-              PhotoShop::resultat=resultat;
-              setImageRGB("resultat",resultat);
-              setResultatBoolean(-1);
-            }
-            else{
-              dialogueErreur("erreur de valeur","entrez un entier positif");
-            }
-          }
-          if(n=="Assombrir (--)"){
-            ImageRGB *resultat=new ImageRGB();
-            ImageNG r,v,b;
-            r=pR->getRouge()--;
-            v=pR->getVert()--;
-            b=pR->getBleu()--;
-            resultat->setRGB(r,v,b);
-            PhotoShop::resultat=resultat;
-            setImageRGB("resultat",resultat);
-            setResultatBoolean(-1);
-          }
-          if(n=="Filtre moyenneur"){
-            m=dialogueDemandeInt("entrez la taille","nombre positif impaire");
-            if((m<0 || m>255) || m%2==0)
-            {
-              dialogueErreur("valeur incorrecte","entrez des nombre impaire(0,255)");
-            }
-            else{
-              ImageRGB *resultat=new ImageRGB();
-              ImageNG r,v,b;
-              r=pR->getRouge();
-              v=pR->getVert();
-              b=pR->getBleu();
-              r=Traitements::FiltreMoyenneur(r,m);
-              v=Traitements::FiltreMoyenneur(v,m);
-              b=Traitements::FiltreMoyenneur(b,m);
-              resultat->setRGB(r,v,b);
-              PhotoShop::resultat=resultat;
-              setImageRGB("resultat",resultat);
-              setResultatBoolean(-1);
-            }
-          }
-          if(n=="Filtre médian"){
-            m=dialogueDemandeInt("entrez la taille","nombre positif impaire");
-            if((m<0 || m>255) || m%2==0)
-            {
-              dialogueErreur("valeur incorrecte","entrez des nombre impaire(0,255)");
-            }
-            else{
-              ImageRGB *resultat=new ImageRGB();
-              ImageNG r,v,b;
-              r=pR->getRouge();
-              v=pR->getVert();
-              b=pR->getBleu();
-              r=Traitements::FiltreMedian(r,m);
-              v=Traitements::FiltreMedian(v,m);
-              b=Traitements::FiltreMedian(b,m);
-              resultat->setRGB(r,v,b);
-              PhotoShop::resultat=resultat;
-              setImageRGB("resultat",resultat);
-              setResultatBoolean(-1);
-            }
-          }
-          if(n=="Erosion"){
-            m=dialogueDemandeInt("entrez la taille","nombre positif impaire");
-            if((m<0 || m>255) || m%2==0)
-            {
-              dialogueErreur("valeur incorrecte","entrez des nombre impaire(0,255)");
-            }
-            else{
-              ImageRGB *resultat=new ImageRGB();
-              ImageNG r,v,b;
-              r=pR->getRouge();
-              v=pR->getVert();
-              b=pR->getBleu();
-              r=Traitements::Erosion(r,m);
-              v=Traitements::Erosion(v,m);
-              b=Traitements::Erosion(b,m);
-              resultat->setRGB(r,v,b);
-              PhotoShop::resultat=resultat;
-              setImageRGB("resultat",resultat);
-              setResultatBoolean(-1);
-            }
-          }
-          if(n=="Dilatation"){
-            m=dialogueDemandeInt("entrez la taille","nombre positif impaire");
-            if((m<0 || m>255) || m%2==0)
-            {
-              dialogueErreur("valeur incorrecte","entrez des nombre impaire(0,255)");
-            }
-            else{
-              ImageRGB *resultat=new ImageRGB();
-              ImageNG r,v,b;
-              r=pR->getRouge();
-              v=pR->getVert();
-              b=pR->getBleu();
-              r=Traitements::Dilatation(r,m);
-              v=Traitements::Dilatation(v,m);
-              b=Traitements::Dilatation(b,m);
-              resultat->setRGB(r,v,b);
-              PhotoShop::resultat=resultat;
-              setImageRGB("resultat",resultat);
-              setResultatBoolean(-1);
-            }
-          }
-          if(n=="Négatif"){
-            ImageRGB *resultat=new ImageRGB();
-            ImageNG r,v,b;
-            r=pR->getRouge();
-            v=pR->getVert();
-            b=pR->getBleu();
-            r=Traitements::Negatif(r);
-            v=Traitements::Negatif(v);
-            b=Traitements::Negatif(b);
-            resultat->setRGB(r,v,b);
-            PhotoShop::resultat=resultat;
-            setImageRGB("resultat",resultat);
-            setResultatBoolean(-1);
-          }
-        
-  }
-  else{
+    string n;
+    int m;
+    n=getTraitementSelectionne();
+    delete PhotoShop::resultat;
+    PhotoShop::resultat=NULL;
+    setImageNG("resultat",NULL);
   
     if(PhotoShop::operande1!= NULL)
     {
@@ -1235,18 +978,17 @@ void MainWindowPhotoShop::on_pushButtonTraitement_clicked()
         if(n=="Eclaircir (+ val)"){
           m=dialogueDemandeInt("Eclaircir","entrez un nombre positif");
           if(m>0){
-            setResultatBoolean(-1);
             ImageNG *resultat=new ImageNG();
             (*resultat)=(*pN)+m;
             PhotoShop::resultat=resultat;
             setImageNG("resultat",resultat);
+            PhotoShop::operande1->Dessine();
           }
           else{
             dialogueErreur("erreur de valeur","entrez un entier positif");
           }
         }
         if(n=="Eclaircir (++)"){
-          setResultatBoolean(-1);
           ImageNG *resultat=new ImageNG();
           (*resultat)=(*pN)++;
           PhotoShop::resultat=resultat;
@@ -1259,7 +1001,6 @@ void MainWindowPhotoShop::on_pushButtonTraitement_clicked()
             (*resultat)=(*pN)-m;
             PhotoShop::resultat=resultat;
             setImageNG("resultat",resultat);
-            setResultatBoolean(-1);
           }
           else{
             dialogueErreur("erreur de valeur","entrez un entier positif");
@@ -1270,7 +1011,6 @@ void MainWindowPhotoShop::on_pushButtonTraitement_clicked()
           (*resultat)=(*pN)--;
           PhotoShop::resultat=resultat;
           setImageNG("resultat",resultat);
-          setResultatBoolean(-1);
         }
         if(n=="Seuillage"){
           m=dialogueDemandeInt("Seuille","entrez un nombre positif");
@@ -1283,7 +1023,6 @@ void MainWindowPhotoShop::on_pushButtonTraitement_clicked()
             (*resultat)=Traitements::Seuillage(*pN,m);
             PhotoShop::resultat=resultat;
             setImageB("resultat",resultat);
-            setResultatBoolean(-1);
           }
         }
         if(n=="Filtre moyenneur"){
@@ -1297,7 +1036,6 @@ void MainWindowPhotoShop::on_pushButtonTraitement_clicked()
             (*resultat)=Traitements::FiltreMoyenneur(*pN,m);
             PhotoShop::resultat=resultat;
             setImageNG("resultat",resultat);
-            setResultatBoolean(-1);
           }
         }
         if(n=="Filtre médian"){
@@ -1311,7 +1049,6 @@ void MainWindowPhotoShop::on_pushButtonTraitement_clicked()
             (*resultat)=Traitements::FiltreMedian(*pN,m);
             PhotoShop::resultat=resultat;
             setImageNG("resultat",resultat);
-            setResultatBoolean(-1);
           }
         }
         if(n=="Erosion"){
@@ -1325,7 +1062,6 @@ void MainWindowPhotoShop::on_pushButtonTraitement_clicked()
             (*resultat)=Traitements::Erosion(*pN,m);
             PhotoShop::resultat=resultat;
             setImageNG("resultat",resultat);
-            setResultatBoolean(-1);
           }
         }
         if(n=="Dilatation"){
@@ -1339,7 +1075,6 @@ void MainWindowPhotoShop::on_pushButtonTraitement_clicked()
             (*resultat)=Traitements::Dilatation(*pN,m);
             PhotoShop::resultat=resultat;
             setImageNG("resultat",resultat);
-            setResultatBoolean(-1);
           }
         }
         if(n=="Négatif"){
@@ -1347,7 +1082,6 @@ void MainWindowPhotoShop::on_pushButtonTraitement_clicked()
           (*resultat)=Traitements::Negatif(*pN);
           PhotoShop::resultat=resultat;
           setImageNG("resultat",resultat);
-          setResultatBoolean(-1);
         }
         if(n=="Différence"){
           if(PhotoShop::operande2!= NULL){
@@ -1451,13 +1185,7 @@ void MainWindowPhotoShop::on_pushButtonTraitement_clicked()
         }
       }
       else{
-        if(PhotoShop::operande2==NULL && PhotoShop::operande2==NULL){
-          dialogueErreur("erreur","auccune image charger");
-        }
-        else{
-          dialogueErreur("erreur","l'operation ne s'applique sur des image B");
-        }
-        
+        dialogueErreur("erreur de type","l'operation s'applique a des image NB operande1");
       }
     }
     else{
@@ -1471,7 +1199,6 @@ void MainWindowPhotoShop::on_pushButtonTraitement_clicked()
               (*resultat)=(*pN)+m;
               PhotoShop::resultat=resultat;
               setImageNG("resultat",resultat);
-              setResultatBoolean(-1);
             }
             else{
               dialogueErreur("erreur de valeur","entrez un entier positif");
@@ -1482,7 +1209,6 @@ void MainWindowPhotoShop::on_pushButtonTraitement_clicked()
             (*resultat)=(*pN)++;
             PhotoShop::resultat=resultat;
             setImageNG("resultat",pN);
-            setResultatBoolean(-1);
           }
           if(n=="Assombrir (- val)"){
             m=dialogueDemandeInt("Eclaircir","entrez un nombre positif");
@@ -1491,7 +1217,6 @@ void MainWindowPhotoShop::on_pushButtonTraitement_clicked()
               (*resultat)=(*pN)-m;
               PhotoShop::resultat=resultat;
               setImageNG("resultat",resultat);
-              setResultatBoolean(-1);
             }
             else{
               dialogueErreur("erreur de valeur","entrez un entier positif");
@@ -1502,7 +1227,6 @@ void MainWindowPhotoShop::on_pushButtonTraitement_clicked()
             (*resultat)=(*pN)--;
             PhotoShop::resultat=resultat;
             setImageNG("resultat",resultat);
-            setResultatBoolean(-1);
           }
           if(n=="Seuillage"){
             m=dialogueDemandeInt("Seuille","entrez un nombre positif");
@@ -1515,7 +1239,6 @@ void MainWindowPhotoShop::on_pushButtonTraitement_clicked()
               (*resultat)=Traitements::Seuillage(*pN,m);
               PhotoShop::resultat=resultat;
               setImageB("resultat",resultat);
-              setResultatBoolean(-1);
             }
           }
           if(n=="Filtre moyenneur"){
@@ -1529,7 +1252,6 @@ void MainWindowPhotoShop::on_pushButtonTraitement_clicked()
               (*resultat)=Traitements::FiltreMoyenneur(*pN,m);
               PhotoShop::resultat=resultat;
               setImageNG("resultat",resultat);
-              setResultatBoolean(-1);
             }
           }
           if(n=="Filtre médian"){
@@ -1543,7 +1265,6 @@ void MainWindowPhotoShop::on_pushButtonTraitement_clicked()
               (*resultat)=Traitements::FiltreMedian(*pN,m);
               PhotoShop::resultat=resultat;
               setImageNG("resultat",resultat);
-              setResultatBoolean(-1);
             }
           }
           if(n=="Erosion"){
@@ -1557,7 +1278,6 @@ void MainWindowPhotoShop::on_pushButtonTraitement_clicked()
               (*resultat)=Traitements::Erosion(*pN,m);
               PhotoShop::resultat=resultat;
               setImageNG("resultat",resultat);
-              setResultatBoolean(-1);
             }
           }
           if(n=="Dilatation"){
@@ -1571,7 +1291,6 @@ void MainWindowPhotoShop::on_pushButtonTraitement_clicked()
               (*resultat)=Traitements::Dilatation(*pN,m);
               PhotoShop::resultat=resultat;
               setImageNG("resultat",resultat);
-              setResultatBoolean(-1);
             }
           }
           if(n=="Négatif"){
@@ -1579,37 +1298,29 @@ void MainWindowPhotoShop::on_pushButtonTraitement_clicked()
             (*resultat)=Traitements::Negatif(*pN);
             PhotoShop::resultat=resultat;
             setImageNG("resultat",resultat);
-            setResultatBoolean(-1);
           }
         }
         else{
-
-          dialogueErreur("erreur de type","l'operation s'applique a des image NB et rgb operande2");
+          dialogueErreur("erreur de type","l'operation s'applique a des image NB operande1");
         }
       }
       else{
-        if(PhotoShop::operande2==NULL && PhotoShop::operande2==NULL){
-          dialogueErreur("erreur","auccune image charger");
-        }
-        else{
-          dialogueErreur("erreur","l'operation ne s'applique sur des image B");
-        }
+        dialogueErreur("erreur","auccune image charger");
       }
 
     }
-  }
 
 }
 void MainWindowPhotoShop::affichetable(){
   string type,dimension,m;
   videTableImages();
-  PhotoShop::getInstance().i.reset();
+  Iterateur<Image*> i(PhotoShop::getInstance().getImages());
   Image*im;
   ImageB* pB;
   ImageNG* pNG;
   ImageRGB* pRGB;
-  while(!PhotoShop::getInstance().i.end()){
-    im=PhotoShop::getInstance().i;
+  while(!i.end()){
+    im=i;
     pB = dynamic_cast<ImageB*>(im);
     if (pB != NULL)
     {
@@ -1628,6 +1339,6 @@ void MainWindowPhotoShop::affichetable(){
     m=im->getNom();
     dimension=to_string(im->getDimension().getLargeur())+"X"+to_string(im->getDimension().getHauteur());
     ajouteTupleTableImages(im->getId(),type,dimension,m);
-    PhotoShop::getInstance().i++;
+    i++;
   }
 }

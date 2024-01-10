@@ -11,43 +11,28 @@
 //------ constructeur
 //---------------------------------
 	Couleur::Couleur(){
-		#ifdef DEBUG
-			cout <<">> couleur:constructeur par defaut<<"<< endl;
-		#endif
 		setRouge(255);
 		setVert(255);
 		setBleu(255);
 	}
 
 	Couleur::Couleur(int r){
-		#ifdef DEBUG
-			cout <<">> couleur:constructeur partielle<<"<< endl;
-		#endif
 		setRouge(r);
 		setVert(0);
 		setBleu(0);
 	}
 
 	Couleur::Couleur(int r,int v){
-		#ifdef DEBUG
-			cout <<">> couleur:constructeur partielle<<"<< endl;
-		#endif
 		setRouge(r);
 		setVert(v);
 		setBleu(0);
 	}
 	Couleur::Couleur(int r,int v,int b){
-		#ifdef DEBUG
-			cout <<">> couleur:constructeur totale<<"<< endl;
-		#endif
 		setRouge(r);
 		setVert(v);
 		setBleu(b);
 	}
 	Couleur::Couleur(const Couleur& c){
-		#ifdef DEBUG
-			cout <<">> couleur:constructeur de copie<<"<< endl;
-		#endif
 		setRouge(c.getRouge());
 		setVert(c.getVert());
 		setBleu(c.getBleu());
@@ -56,15 +41,12 @@
 //------ destructeur
 //---------------------------------
 	Couleur::~Couleur(){
-		#ifdef DEBUG
-			cout <<">> couleur:destructeur<<"<< endl;
-		#endif
 
 	}
 //---------------------------------
 //------ setter
 //---------------------------------
-	void Couleur::setRouge(int r) throw(RGBException)
+	void Couleur::setRouge(int r) 
 	{
 		if(r<0 || r>255){
 			throw RGBException(r,"Composant rouge invalide");
@@ -73,7 +55,7 @@
 			rouge=r;
 		}
 	}
-	void Couleur::setVert(int v) throw(RGBException)
+	void Couleur::setVert(int v) 
 	{
 		if(v<0 || v>255){
 			throw(RGBException(v,"Composant vert invalide"));
@@ -82,7 +64,7 @@
 			vert=v;
 		}
 	}
-	void Couleur::setBleu(int b) throw(RGBException)
+	void Couleur::setBleu(int b) 
 	{
 		if(b<0 || b>255){
 			throw(RGBException(b,"Composant blue invalide"));

@@ -24,7 +24,7 @@ class ImageNG
 
 		int getId()const;
 		const char * getNom() const;
-		Dimension  getDimension() const;
+		const Dimension& getDimension() const;
 
 
 		void Affiche() const;

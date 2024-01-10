@@ -26,12 +26,12 @@ class ArrayList
 		~ArrayList();
 
 		int getNombreElements();
-		T& getElement(int ind) throw(Exception);
+		T& getElement(int ind);
 
-		virtual bool estVide();
+		bool estVide();
 		void Affiche();
 		virtual void insereElement(T const & val);
-		T retireElement(int ind) throw(Exception);
+		T retireElement(int ind);
 		ArrayList<T>& operator=(ArrayList<T>& A);
 
 };

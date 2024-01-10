@@ -22,7 +22,7 @@
 
 MainWindowPhotoShop::MainWindowPhotoShop(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWindowPhotoShop)
 {
-    int n;
+  int n;
     ui->setupUi(this);
     setTitre("Mini-PhotoShop  en C++");
 
@@ -78,7 +78,6 @@ MainWindowPhotoShop::MainWindowPhotoShop(QWidget *parent) : QMainWindow(parent),
     if(n>0){
       affichetable();
     }
-
     // TESTS DEMOS A SUPPRIMER
     /*ajouteTupleTableImages(3,"NG","256x256","lena.bmp");
     setResultatBoolean(1);*/
@@ -687,44 +686,12 @@ void MainWindowPhotoShop::on_actionImage_selectionn_e_triggered()
   int n;
   string m,type,dimension;
   n=getIndiceImageSelectionnee();
-  if(n!=-1){
-    if(PhotoShop::getInstance().getImageParIndice(n)!=NULL){
-      PhotoShop::getInstance().supprimeImageParIndice(n);
-      videTableImages();
-      PhotoShop::getInstance().i.reset();
-      Image*im;
-      ImageB* pB;
-      ImageNG* pNG;
-      ImageRGB* pRGB;
-      while(!PhotoShop::getInstance().i.end()){
-        im=PhotoShop::getInstance().i;
-        pB = dynamic_cast<ImageB*>(im);
-        if (pB != NULL)
-        {
-          type="B";
-        }
-        pNG = dynamic_cast<ImageNG*>(im);
-        if (pNG != NULL) 
-        {
-          type="NG";
-        }
-        pRGB = dynamic_cast<ImageRGB*>(im);
-        if (pRGB != NULL) 
-        {
-          type="RGB";
-        }
-        m=im->getNom();
-        dimension=to_string(im->getDimension().getLargeur())+"X"+to_string(im->getDimension().getHauteur());
-        ajouteTupleTableImages(im->getId(),type,dimension,m);
-        PhotoShop::getInstance().i++;
-      }
-    }
-    else{
-      dialogueErreur("suppression","l'id n'existe pas");
-    }
+  if(PhotoShop::getInstance().getImageParIndice(n)!=NULL){
+    PhotoShop::getInstance().supprimeImageParIndice(n);
+    affichetable();
   }
   else{
-    dialogueErreur("erreur","aucun element selectionner");
+    dialogueErreur("suppression","l'id n'existe pas");
   }
 
 }
@@ -738,34 +705,7 @@ void MainWindowPhotoShop::on_actionImage_par_id_triggered()
   n=dialogueDemandeInt("suppression","entrez l'indice de l'element a supprimer");
   if(PhotoShop::getInstance().getImageParId(n)!=NULL){
     PhotoShop::getInstance().supprimeImageParId(n);
-    videTableImages();
-    PhotoShop::getInstance().i.reset();
-    Image*im;
-    ImageB* pB;
-    ImageNG* pNG;
-    ImageRGB* pRGB;
-    while(!PhotoShop::getInstance().i.end()){
-      im=PhotoShop::getInstance().i;
-      pB = dynamic_cast<ImageB*>(im);
-      if (pB != NULL)
-      {
-        type="B";
-      }
-      pNG = dynamic_cast<ImageNG*>(im);
-      if (pNG != NULL) 
-      {
-        type="NG";
-      }
-      pRGB = dynamic_cast<ImageRGB*>(im);
-      if (pRGB != NULL) 
-      {
-        type="RGB";
-      }
-      m=im->getNom();
-      dimension=to_string(im->getDimension().getLargeur())+"X"+to_string(im->getDimension().getHauteur());
-      ajouteTupleTableImages(im->getId(),type,dimension,m);
-      PhotoShop::getInstance().i++;
-    }
+    affichetable();
   }
   else{
     dialogueErreur("suppression","l'id n'existe pas");
@@ -813,7 +753,7 @@ void MainWindowPhotoShop::on_actionImporterCSV_triggered()
 void MainWindowPhotoShop::on_actionReset_triggered()
 {
   // Etape 14 (TO DO)
-  Image*p;
+   Image*p;
   if(PhotoShop::getInstance().getImageParIndice(0)!=NULL){
     PhotoShop::getInstance().reset();
     videTableImages();
@@ -844,34 +784,30 @@ void MainWindowPhotoShop::on_tableWidgetImages_itemSelectionChanged()
   int n;
   Image*i;
   n=getIndiceImageSelectionnee();
-  if(n!=-1){
-    if(PhotoShop::getInstance().getImageParIndice(n)!=NULL){
-      i=PhotoShop::getInstance().getImageParIndice(n);
-      nom=i->getNom();
-      setNomImage(nom);
-      ImageB* pB = dynamic_cast<ImageB*>(i);
-      if (pB != NULL)
-      {
-        setImageB("selection",pB);
-        setParametresImageNG(-1,-1,-1,0.0);
-      }
-      ImageNG* pN = dynamic_cast<ImageNG*>(i);
-      if (pN != NULL)
-      {
-        setImageNG("selection",pN);
-        setParametresImageNG(pN->getMaximum(),pN->getMinimum(),pN->getLuminance(),pN->getContraste());
-      }
-      ImageRGB* pR = dynamic_cast<ImageRGB*>(i);
-      if (pR != NULL)
-      {
-        setImageRGB("selection",pR);
-        setParametresImageNG(-1,-1,-1,0.0);
-      }
-    } 
-  } 
-  else{
-    setParametresImageNG(-1,-1,-1,0.0);
-  }
+  if(PhotoShop::getInstance().getImageParIndice(n)!=NULL){
+    i=PhotoShop::getInstance().getImageParIndice(n);
+    nom=i->getNom();
+    setNomImage(nom);
+    ImageB* pB = dynamic_cast<ImageB*>(i);
+    if (pB != NULL)
+    {
+      setImageB("selection",pB);
+      setParametresImageNG(-1,-1,-1,0.0);
+    }
+    ImageNG* pN = dynamic_cast<ImageNG*>(i);
+    if (pN != NULL)
+    {
+      setImageNG("selection",pN);
+      setParametresImageNG(pN->getMaximum(),pN->getMinimum(),pN->getLuminance(),pN->getContraste());
+    }
+    ImageRGB* pR = dynamic_cast<ImageRGB*>(i);
+    if (pR != NULL)
+    {
+      setImageRGB("selection",pR);
+      setParametresImageNG(-1,-1,-1,0.0);
+    }
+
+  }  
 
 }
 
@@ -1000,7 +936,7 @@ void MainWindowPhotoShop::on_pushButtonSupprimerOperande2_clicked()
     // Etape 12 (TO DO)
   if(PhotoShop::operande2!= NULL)
   {
-    Image*i=PhotoShop::getInstance().getImageParId(PhotoShop::operande1->getId());
+    Image*i=PhotoShop::getInstance().getImageParId(PhotoShop::operande2->getId());
     ImageB* pB = dynamic_cast<ImageB*>(i);
     if (pB != NULL)
     {
@@ -1051,8 +987,7 @@ void MainWindowPhotoShop::on_pushButtonSupprimerResultat_clicked()
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void MainWindowPhotoShop::on_pushButtonTraitement_clicked()
 {
-    // Etape 12 (TO DO)
-  string n;
+    string n;
   int m;
   n=getTraitementSelectionne();
   delete PhotoShop::resultat;
@@ -1603,13 +1538,13 @@ void MainWindowPhotoShop::on_pushButtonTraitement_clicked()
 void MainWindowPhotoShop::affichetable(){
   string type,dimension,m;
   videTableImages();
-  PhotoShop::getInstance().i.reset();
+  Iterateur<Image*> i(PhotoShop::getInstance().getImages());
   Image*im;
   ImageB* pB;
   ImageNG* pNG;
   ImageRGB* pRGB;
-  while(!PhotoShop::getInstance().i.end()){
-    im=PhotoShop::getInstance().i;
+  while(!i.end()){
+    im=i;
     pB = dynamic_cast<ImageB*>(im);
     if (pB != NULL)
     {
@@ -1628,6 +1563,6 @@ void MainWindowPhotoShop::affichetable(){
     m=im->getNom();
     dimension=to_string(im->getDimension().getLargeur())+"X"+to_string(im->getDimension().getHauteur());
     ajouteTupleTableImages(im->getId(),type,dimension,m);
-    PhotoShop::getInstance().i++;
+    i++;
   }
 }

@@ -1,5 +1,6 @@
 #include "Iterateur.h"	
 #include "Couleur.h"
+#include "Image.h"	
 //---------------------------------
 //------ constructeur
 //---------------------------------	
@@ -8,6 +9,7 @@
 			#ifdef DEBUG
 			cout <<">> Iterateur:constructeur de liste<<"<< endl;
 			#endif
+
 			pcur=liste.tete;
 		}
 		template<class T> 
@@ -52,3 +54,4 @@
 		}
 	template class Iterateur<int>;
 	template class Iterateur<Couleur>;
+	template class Iterateur<Image*>;

@@ -101,7 +101,7 @@
 	    }
 		dimension = D;
 	}
-	void ImageRGB::setPixel(int x,int y,const Couleur& c) throw(XYException)
+	void ImageRGB::setPixel(int x,int y,const Couleur& c)
 	{
 		if(x<0 || x>dimension.getLargeur()){
 			throw XYException('x',"coordonner de pixel invalide");
@@ -124,7 +124,7 @@
 //---------------------------------
 //------ getter
 //---------------------------------
-	const Couleur& ImageRGB::getPixel(int x,int y)const throw(XYException)
+	const Couleur& ImageRGB::getPixel(int x,int y)const 
 	{
 		if(x<0 || x>=getDimension().getLargeur()){
 			throw XYException('x',"coordonner de pixel invalide");
@@ -207,6 +207,7 @@
 			}
 		}
 	}
+	
 	ImageNG ImageRGB::getRouge() const{
 		int x,y;
 		ImageNG i(this->getId(),this->getNom(),this->getDimension());
@@ -249,5 +250,3 @@
 			}
 		}
 	}
-
-	

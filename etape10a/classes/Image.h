@@ -28,8 +28,8 @@ class Image
 		virtual void Dessine()const=0;
 		virtual void exportToFile(const char* fichier, const char* format)=0;
 
-		void Save(ofstream & fichier) const;
-		void Load(ifstream & fichier);
+		virtual void Save(ofstream & fichier) const;
+		virtual void Load(ifstream & fichier);
 
 };
 #endif

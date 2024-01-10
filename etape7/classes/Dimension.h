@@ -19,8 +19,8 @@ class Dimension{
 		Dimension(const Dimension& dim);
 		~Dimension();
 
-		void setLargeur(int i) throw(XYException);
-		void setHauteur(int i) throw(XYException);
+		void setLargeur(int i);
+		void setHauteur(int i) ;
 
 		int getLargeur() const;
 		int getHauteur() const;
@@ -28,7 +28,7 @@ class Dimension{
 		void Affiche() const;
 
 		friend ostream& operator<<(ostream& s, const Dimension& d);
-		friend istream& operator>>(istream& s, Dimension& d) throw(XYException);
+		friend istream& operator>>(istream& s, Dimension& d) ;
 		int operator==(const Dimension& d)const;
 		int operator!=(const Dimension& d)const;
 };

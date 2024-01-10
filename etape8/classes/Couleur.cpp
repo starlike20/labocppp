@@ -59,12 +59,11 @@
 		#ifdef DEBUG
 			cout <<">> couleur:destructeur<<"<< endl;
 		#endif
-
 	}
 //---------------------------------
 //------ setter
 //---------------------------------
-	void Couleur::setRouge(int r) throw(RGBException)
+	void Couleur::setRouge(int r) 
 	{
 		if(r<0 || r>255){
 			throw RGBException(r,"Composant rouge invalide");
@@ -73,7 +72,7 @@
 			rouge=r;
 		}
 	}
-	void Couleur::setVert(int v) throw(RGBException)
+	void Couleur::setVert(int v) 
 	{
 		if(v<0 || v>255){
 			throw(RGBException(v,"Composant vert invalide"));
@@ -82,7 +81,7 @@
 			vert=v;
 		}
 	}
-	void Couleur::setBleu(int b) throw(RGBException)
+	void Couleur::setBleu(int b) 
 	{
 		if(b<0 || b>255){
 			throw(RGBException(b,"Composant blue invalide"));
@@ -120,7 +119,7 @@
 		s<<"Couleur:"<<"Rouge:"<<c.getRouge()<<"Vert:"<<c.getVert()<<"Bleu:"<<c.getBleu()<<endl;
 		return s;
 	}
-
+	
 	void Couleur::Save(ofstream & fichier) const{
 		fichier.write((char *)this,sizeof(Couleur));
 	}

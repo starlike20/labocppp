@@ -13,21 +13,21 @@
 //---------------------------------
  	Dimension::Dimension(void){
  		#ifdef DEBUG
-			cout <<">> ImageNG:constructeur par defaut<<"<< endl;
+			cout <<">> Dimension:constructeur par defaut<<"<< endl;
 		#endif
 			setLargeur(-1);
 			setHauteur(-1);
  	}
  	Dimension::Dimension(const int l,const int h){
  		#ifdef DEBUG
-			cout <<">> ImageNG:constructeur d'initialisation<<"<< endl;
+			cout <<">> Dimension:constructeur d'initialisation<<"<< endl;
 		#endif
 			setLargeur(l);
 			setHauteur(h);
  	}
  	Dimension::Dimension(const Dimension& dim){
  		#ifdef DEBUG
-			cout <<">> ImageNG:constructeur de copie<<"<< endl;
+			cout <<">> Dimension:constructeur de copie<<"<< endl;
 		#endif
 			setLargeur(dim.getLargeur());
 			setHauteur(dim.getHauteur());
@@ -37,7 +37,7 @@
 //---------------------------------
  	Dimension::~Dimension(){
  		#ifdef DEBUG
-			cout <<">> ImageNG:destructeur par defaut<<"<<endl;
+			cout <<">> Dimension:destructeur par defaut<<"<<endl;
 		#endif
  	}
 //---------------------------------

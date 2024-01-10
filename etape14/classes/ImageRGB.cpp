@@ -101,7 +101,7 @@
 	    }
 		dimension = D;
 	}
-	void ImageRGB::setPixel(int x,int y,const Couleur& c) throw(XYException)
+	void ImageRGB::setPixel(int x,int y,const Couleur& c)
 	{
 		if(x<0 || x>dimension.getLargeur()){
 			throw XYException('x',"coordonner de pixel invalide");
@@ -124,7 +124,7 @@
 //---------------------------------
 //------ getter
 //---------------------------------
-	const Couleur& ImageRGB::getPixel(int x,int y)const throw(XYException)
+	const Couleur& ImageRGB::getPixel(int x,int y)const 
 	{
 		if(x<0 || x>=getDimension().getLargeur()){
 			throw XYException('x',"coordonner de pixel invalide");
@@ -207,47 +207,4 @@
 			}
 		}
 	}
-	ImageNG ImageRGB::getRouge() const{
-		int x,y;
-		ImageNG i(this->getId(),this->getNom(),this->getDimension());
-		for(x=0;x<getDimension().getLargeur();x++){
-			for(y=0;y<getDimension().getHauteur();y++){
-				i.setPixel(x,y,this->getPixel(x,y).getRouge());
-			}
-		}
-		return i;
-	}
-	ImageNG ImageRGB::getVert() const{
-		int x,y;
-		ImageNG i(this->getId(),this->getNom(),this->getDimension());
-		for(x=0;x<getDimension().getLargeur();x++){
-			for(y=0;y<getDimension().getHauteur();y++){
-				i.setPixel(x,y,this->getPixel(x,y).getVert());
-			}
-		}
-		return i;
-	}
-	ImageNG ImageRGB::getBleu() const{
-		int x,y;
-		ImageNG i(this->getId(),this->getNom(),this->getDimension());
-		for(x=0;x<getDimension().getLargeur();x++){
-			for(y=0;y<getDimension().getHauteur();y++){
-				i.setPixel(x,y,this->getPixel(x,y).getBleu());
-			}
-		}
-		return i;
-	}
-
-	void ImageRGB::setRGB(const ImageNG &r, const ImageNG &g, const ImageNG& b){
-		int x,y;
-		if(r.getDimension()==g.getDimension() && g.getDimension()==b.getDimension()){
-			setDimension(r.getDimension());
-			for(x=0;x<getDimension().getLargeur();x++){
-				for(y=0;y<getDimension().getHauteur();y++){
-					setPixel(x,y,Couleur(r.getPixel(x,y),g.getPixel(x,y),b.getPixel(x,y)));
-				}
-			}
-		}
-	}
-
 	

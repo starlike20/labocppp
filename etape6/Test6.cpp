@@ -106,7 +106,7 @@ void Essai1()
     cout << "Couleur creee = " << c1 << endl << endl;
   }
   // ...
-  catch(RGBException e){
+  catch(const RGBException& e){
     cout<<"erreur:"<<e.gettexte()<<endl;
   }
 
@@ -144,7 +144,7 @@ void Essai2()
     cout << "Dimension saisie : " << d1 << endl;
   }
   // ...
-  catch(XYException e){
+  catch(const XYException& e){
     cout<<"erreur:"<<e.gettexte()<<" sur la coordonner "<<e.getcor()<<endl;
   }
   cout << endl;
@@ -180,10 +180,10 @@ void Essai3()
     cout << "Valeur en (" << x << "," << y << ") = " << im.getPixel(x,y) << endl << endl;
   }
   // ...
-  catch(XYException e){
+  catch(const XYException& e){
     cout<<"erreur:"<<e.gettexte()<<" sur la coordonner "<<e.getcor()<<endl;
   }
-  catch(RGBException e){
+  catch(const RGBException& e){
     cout<<"erreur:"<<e.gettexte()<<endl;
   }
   
@@ -240,7 +240,7 @@ void Essai4()
     }
   }
   // ...
-  catch(XYException e){
+  catch(const XYException& e){
     cout<<"erreur:"<<e.gettexte()<<endl;
   }
 
@@ -275,10 +275,10 @@ void Essai5()
     cout << "Valeur en (" << x << "," << y << ") = " << im.getPixel(x,y) << endl << endl;
   }
   // ...
-  catch(XYException e){
+  catch(const XYException& e){
     cout<<"erreur:"<<e.gettexte()<<" sur la coordonner "<<e.getcor()<<endl;
   }
-  catch(RGBException e){
+  catch(const RGBException& e){
     cout<<"erreur:"<<e.gettexte()<<endl;
   }
   
@@ -310,10 +310,10 @@ void Essai6()
     cout << "Valeur en (" << x << "," << y << ") = " << im.getPixel(x,y) << endl << endl;
   }
   // ...
-  catch(XYException e){
+  catch(const XYException& e){
     cout<<"erreur:"<<e.gettexte()<<" sur la coordonner "<<e.getcor()<<endl;
   }
-  catch(RGBException e){
+  catch(const RGBException& e){
     cout<<"erreur:"<<e.gettexte()<<endl;
   }
   

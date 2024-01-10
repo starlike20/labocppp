@@ -61,6 +61,7 @@ public:
     string dialogueDemandeFichierOuvrir(const char* question);
     string dialogueDemandeFichierEnregistrer(const char* question);
     void   dialogueDemandeCouleur(const char* message,int* pRouge,int* pVert,int* pBleu);
+    void affichetable();
 
 private slots:
     void on_actionQuitter_triggered();
